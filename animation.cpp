@@ -3,8 +3,9 @@
 #include <iostream>
 #include <math.h>
 
+#include "src/poly.h"
+
 #define KEY_ESC 27
-#define PI 3.14159265
 
 float size   = 600;             // windows size
 float msize  = size/2;          // middle size
@@ -18,19 +19,6 @@ float angle = 0;                // angle
 float init[3]   = {0,0,0};      // (x,y,z) init
 float center[3] = {0,-250,0};   // (x,y,z) circle's center
 float r         = 50;           // circle's radius
-
-void TDrawCircle(float _x, float _y, float _r, int _segm) {    
-    glBegin(GL_LINE_LOOP);
-        glColor3d(0,0.5,0);
-        float x, y, theta;          
-        for(int i = 0; i < _segm; i++){
-            theta = (float)(2*PI*i)/_segm;
-            x = _r*cos(theta);
-            y = _r*sin(theta);
-            glVertex2f(x+_x, y+_y);
-        }
-    glEnd();
-}
 
 void TPaint(){
     glClear(GL_COLOR_BUFFER_BIT);
@@ -91,6 +79,7 @@ void TTimer(int _t){
     mtime += speed;
 }
 
+// g++ animation.cpp -o animation.out -lglut -lGL
 int main(int argc, char *argv[]){
     
     glutInit(&argc, argv);

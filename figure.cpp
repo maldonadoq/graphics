@@ -49,6 +49,7 @@ void TWKey(unsigned char key, int x, int y) {
     }
 }
 
+// g++ figure.cpp -o figure.out -lglut -lGL
 int main(int argc, char *argv[]){
     
     glutInit(&argc, argv);

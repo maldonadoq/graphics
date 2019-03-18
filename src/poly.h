@@ -6,7 +6,7 @@
 #define PI 3.14159265
 
 /*
-	Draw Square
+	Draw Square Function
 	_x    center x
 	_y    center y
 	_size edge size
@@ -24,19 +24,34 @@ void TDrawSquare(float _x, float _y, float _size){
 	glEnd();
 }
 
-void TDrawCircle(float _x, float _y, float _r, int _segm) {
+/*
+	Draw A Circle Function
+	_x     center x
+	_y     center y
+	_rad   circle's radius
+	_segm  numbers of segments
+*/
+void TDrawCircle(float _x, float _y, float _rad, int _segm) {
     glBegin(GL_LINE_LOOP);    
 		glColor3d(0,0.5,0);
 		float x, y, theta;    		
 		for(int i = 0; i < _segm; i++){
 		    theta = (float)(2*PI*i)/_segm;
-		    x = _r*cos(theta);
-		    y = _r*sin(theta);
+		    x = _rad*cos(theta);
+		    y = _rad*sin(theta);
 		    glVertex2d(x+_x, y+_y);
 		}
     glEnd();
 }
 
+/*
+	Draw n Circles Function
+	_x     		center x
+	_y     		center y
+	_rad   		circle's radius
+	_circles	numbers of circles
+	_reduction  reduction
+*/
 void TDrawCircles(double _x, double _y, double _rad, unsigned _circles, double _reduction){
 	double tx = _x;
 	double ty = _y;
@@ -54,6 +69,14 @@ void TDrawCircles(double _x, double _y, double _rad, unsigned _circles, double _
 	}
 }
 
+/*
+	Draw n Circles Adjacent Function
+	_x     		center x
+	_y     		center y
+	_rad   		circle's radius
+	_circles	numbers of circles
+	_reduction  reduction
+*/
 void TDrawAdjacentCircle(double _x, double _y, double _rad, unsigned _circles, double _reduction){
 	double tx = _x;
 	double ty = _y;
@@ -71,6 +94,15 @@ void TDrawAdjacentCircle(double _x, double _y, double _rad, unsigned _circles, d
 	}
 }
 
+/*
+	Draw n Circles Function
+	_x     		center x
+	_y     		center y
+	_rad   		circle's radius
+	_circles	numbers of circles
+	_reduction  reduction
+	_angle 		ratate's angle
+*/
 void TDrawAdjacentCircleAngle(double _x, double _y, double _rad, unsigned _circles, double _reduction, double _angle){
 	double tx = _x;
 	double ty = _y;
