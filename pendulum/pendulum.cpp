@@ -3,9 +3,8 @@
 #include <iostream>
 #include <math.h>
 
-#include "src/poly.h"
-
 #define KEY_ESC 27
+#define PI 3.14159265
 
 float size   = 600;             // windows size
 float msize  = size/2;          // middle size
