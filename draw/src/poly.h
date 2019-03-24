@@ -19,7 +19,7 @@ void TDrawSquare(float _x, float _y, float _size){
 		glVertex2f(_x-tmp, _y+tmp);
 		glVertex2f(_x+tmp, _y+tmp);
 		glVertex2f(_x+tmp, _y-tmp);
-		glVertex2f(_x-tmp, _y-tmp);
+		glVertex2f(_x-tmp, _y-tmp);		
 
 	glEnd();
 }

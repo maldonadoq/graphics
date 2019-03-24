@@ -38,9 +38,9 @@ void TTranslateComplex(float _teapot_angle, float _teapot_translate,
 		glRotatef(_teapot_angle,0,0,1);
 		glTranslatef(_teapot_translate,0,0);
 		glColor3f(0,0,1);
-		glutSolidTeapot(2);
+		glutSolidTeapot(1.3);
 
-		glTranslatef(6.0f*sin(_torus_angle), 0.0, 6.0f*cos(_teapot_angle));
+		glTranslatef(_torus_translate*sin(_torus_angle), 0.0, _torus_translate*cos(_teapot_angle));
 	    glColor3f(1,1,0);
 	    glutSolidTorus(_torus_inner,_torus_inner+0.2,20,20);
 	glPopMatrix();
@@ -49,7 +49,7 @@ void TTranslateComplex(float _teapot_angle, float _teapot_translate,
 		glRotatef(_cube_angle,1,0,0);
 		glTranslatef(0,_cube_translate,0);
 		glColor3f(1,0,0);
-		glutSolidCube(2);
+		glutSolidCube(2.5);
 	glPopMatrix();
 }
 
