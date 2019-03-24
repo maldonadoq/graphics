@@ -15,6 +15,8 @@
 float wsize = 50;
 float msize = wsize/2;
 
+float segm = 8;
+
 /*
 float teapot_angle  	= 0;
 float teapot_speed 		= 3;
