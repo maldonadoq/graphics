@@ -20,6 +20,20 @@ float init[3]   = {0,0,0};      // (x,y,z) init
 float center[3] = {0,-250,0};   // (x,y,z) circle's center
 float r         = 50;           // circle's radius
 
+
+void TDrawCircle(float _x, float _y, float _rad, int _segm) {
+    glBegin(GL_LINE_LOOP);    
+        glColor3d(0,0.5,0);
+        float x, y, theta;          
+        for(int i = 0; i < _segm; i++){
+            theta = (float)(2*PI*i)/_segm;
+            x = _rad*cos(theta);
+            y = _rad*sin(theta);
+            glVertex2d(x+_x, y+_y);
+        }
+    glEnd();
+}
+
 void TPaint(){
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();   
