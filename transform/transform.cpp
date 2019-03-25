@@ -62,7 +62,7 @@ float mars_anglec		= 0;
 float mars_anglet		= 0;
 float mars_speedc		= sun_speedc;
 float mars_speedt		= earth_speedt;
-float mars_radius		= 3;
+float mars_radius		= 2.5;
 float mars_translate	= 18;
 
 void TPaint(){
