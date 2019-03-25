@@ -3,6 +3,7 @@
 #include <iostream>
 #include <math.h>
 
+// header crane!!
 #include "src/crane.h"
 
 #define RED   0
@@ -10,6 +11,7 @@
 #define BLUE  0
 #define ALPHA 1
 
+// keys!!
 #define KEY_ESC 27
 #define KEY_Q 'q'
 #define KEY_W 'w'
@@ -22,6 +24,7 @@
 #define KEY_9 '9'
 #define KEY_0 '0'
 
+// size window!!
 float wxsize = 800;
 float wysize = 500;
 
@@ -33,22 +36,23 @@ float zaxis = 50;
 float xmove = 300;
 float ymove = 200;
 
-float base_weigth	= 100;
+// crane's variables !!
+float base_width	= 100;
 float base_height	= 20;
 
 float a_angle 		= 60;
-float a_weigth		= 400;
+float a_width		= 400;
 float a_height		= 15;
 
 float b_angle		= a_angle-90;
-float b_weigth 		= 250;
+float b_width 		= 250;
 float b_height 		= 13;
 
-float l_weigth		= 200;
-float c_weigth		= 30;
+float l_width		= 200;
+float c_width		= 30;
 
 float angle_speed	= 2;
-float weigth_speed	= 2;
+float width_speed	= 2;
 
 void TPaint(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
@@ -57,10 +61,11 @@ void TPaint(){
 	glLoadIdentity();
 	glOrtho(-mxsize+xmove,mxsize+xmove,-mysize+ymove,mysize+ymove, -zaxis, zaxis);
 	
-	TDrawCrane(base_weigth, base_height, \
-		a_angle, a_weigth, a_height, \
-		b_angle, b_weigth, b_height, \
-		l_weigth, c_weigth);
+	// function to draw the crane!!
+	TDrawCrane(base_width, base_height, \
+		a_angle, a_width, a_height, \
+		b_angle, b_width, b_height, \
+		l_width, c_width);
 
 	glutSwapBuffers();
 	glFlush();
@@ -98,6 +103,7 @@ void TInitScene(){
 }
 
 void TWKey(unsigned char key, int x, int y) {
+	// kes detected!!
     switch (key) {
         case KEY_ESC:
             exit(0);
@@ -120,22 +126,22 @@ void TWKey(unsigned char key, int x, int y) {
         	break;
         }
         case KEY_1:
-        	a_weigth += weigth_speed;
+        	a_width += width_speed;
         	break;
         case KEY_8:
-        	a_weigth -= weigth_speed;
+        	a_width -= width_speed;
         	break;
         case KEY_2:
-        	b_weigth += weigth_speed;
+        	b_width += width_speed;
         	break;
         case KEY_9:
-        	b_weigth -= weigth_speed;
+        	b_width -= width_speed;
         	break;
         case KEY_3:
-        	l_weigth += weigth_speed;
+        	l_width += width_speed;
         	break;
         case KEY_0:
-        	l_weigth -= weigth_speed;
+        	l_width -= width_speed;
         	break;
         default:
             break;
@@ -167,7 +173,7 @@ int main(int argc, char *argv[]){
     glutKeyboardFunc(&TWKey);
 
     glutIdleFunc(&TIdle);
-    glutTimerFunc(0, TTimer, 0);
+    // glutTimerFunc(0, TTimer, 0);
 
     glutMainLoop();
 

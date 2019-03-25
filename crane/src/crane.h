@@ -3,54 +3,64 @@
 
 #define PI 3.14159265
 
-void TDrawRectangle(float _x, float _y, float _weight, float _height){
+// draw rectangle to move the crane!!!
+// good rectangle!!
+void TDrawRectangle(float _x, float _y, float _width, float _height){
 	float _h = _height/2;
 	glBegin(GL_QUADS);		
 		glVertex2f(_x     , -_h +_y);
-		glVertex2f(_weight+_x, -_h +_y);
-		glVertex2f(_weight+_x, _h +_y);
+		glVertex2f(_width+_x, -_h +_y);
+		glVertex2f(_width+_x, _h +_y);
 		glVertex2f(_x     , _h +_y);
 	glEnd();
 }
 
-void TDrawCrane(float _weight, float _height,
-	float _anglea, float _weighta, float _heighta,
-	float _angleb, float _weightb, float _heightb,
-	float _weightl, float _weightc){
+// function to draw crane
+void TDrawCrane(float _width, float _height,
+	float _anglea, float _widtha, float _heighta,
+	float _angleb, float _widthb, float _heightb,
+	float _widthl, float _widthc){
 
+	// draw base rectangle!!
 	glColor3f(1,0,0);
-	TDrawRectangle(-_weight/2, -_height/2, _weight, _height);	
+	TDrawRectangle(-_width/2, -_height/2, _width, _height);	
 
+	// draw first arm!!
 	glPushMatrix();
+		// angle a!!
 		glRotatef(_anglea,0,0,1);
 		glColor3f(0,1,0);
-		TDrawRectangle(0, 0, _weighta, _heighta);
+		TDrawRectangle(0, 0, _widtha, _heighta);
 	glPopMatrix();	
 
 	float atmp  = (_anglea*PI)/180;
-	float xtmp = _weighta*cos(atmp);
-	float ytmp = _weighta*sin(atmp);
+	float xtmp = _widtha*cos(atmp);
+	float ytmp = _widtha*sin(atmp);
 
-	glPushMatrix();		
+	// second arm!
+	glPushMatrix();
+		// angle b
 		glTranslatef(xtmp,ytmp,0);
 		glRotatef(_angleb,0,0,1);
 		glColor3f(0,0,1);		
-		TDrawRectangle(0, 0, _weightb, _heightb);		
+		TDrawRectangle(0, 0, _widthb, _heightb);		
 	glPopMatrix();
 
 	float btmp  = (_angleb*PI)/180;
-	xtmp += _weightb*cos(btmp);
-	ytmp += _weightb*sin(btmp);	
+	xtmp += _widthb*cos(btmp);
+	ytmp += _widthb*sin(btmp);	
 
+	// line!!
 	glColor3f(1,1,1);
 	glBegin(GL_LINES);		
 		glVertex2f(xtmp,ytmp);
-		glVertex2f(xtmp,ytmp-_weightl);
+		glVertex2f(xtmp,ytmp-_widthl);
 	glEnd();
 
-	glTranslatef(xtmp,ytmp-_weightl,0);
+	// cube!!
+	glTranslatef(xtmp,ytmp-_widthl,0);
 	glColor3f(0.5,0,0.5);
-	glutSolidCube(_weightc);	
+	glutSolidCube(_widthc);	
 }
 
 #endif
