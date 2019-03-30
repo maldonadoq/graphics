@@ -3,11 +3,20 @@
 
 #include <GL/glut.h>
 
+#define PI 3.14159265
+
 extern float segm;
 
 void TTranslate(float _angle, float _move){
 	glRotatef(_angle,0,0,1);
 	glTranslatef(_move,0,0);
+
+	glutSolidTeapot(1);
+}
+
+void TTranslateII(float _angle, float _translate){
+	float _a = (float)_angle*PI/180;
+	glTranslatef(_translate*cos(_a),_translate*sin(_a),0);
 
 	glutSolidTeapot(1);
 }

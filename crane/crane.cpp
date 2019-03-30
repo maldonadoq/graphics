@@ -163,7 +163,7 @@ int main(int argc, char *argv[]){
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);	
 	glutInitWindowSize(wxsize, wysize);
 	glutInitWindowPosition(50,50);
-	glutCreateWindow("Transformations");
+	glutCreateWindow("Crane");
     
     TInit();
     TInitScene();
