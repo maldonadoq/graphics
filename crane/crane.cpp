@@ -140,21 +140,14 @@ void TWKey(unsigned char key, int x, int y) {
         case KEY_3:
         	l_width += width_speed;
         	break;
-        case KEY_0:
-        	l_width -= width_speed;
+        case KEY_0:{
+            if(l_width > 0)
+        	   l_width -= width_speed;
         	break;
+        }
         default:
             break;
     }
-}
-
-/*
-    Timer Function
-    1s -> 6 call
-*/
-void TTimer(int _t){
-    glutPostRedisplay();
-    glutTimerFunc(1000/60, TTimer, 0);    
 }
 
 // g++ figure.cpp -o figure.out -lglut -lGL
@@ -173,7 +166,6 @@ int main(int argc, char *argv[]){
     glutKeyboardFunc(&TWKey);
 
     glutIdleFunc(&TIdle);
-    // glutTimerFunc(0, TTimer, 0);
 
     glutMainLoop();
 
