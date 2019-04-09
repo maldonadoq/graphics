@@ -23,7 +23,7 @@ void TSolarSystem(float _sun_angle, float _sun_radius,
 	float ye = 0;
 	float ze = _earth_translate*cos(_earth_anglet);
 
-	gluLookAt(-20,-20,-20,xe,ye,ze,0,1,0);
+	gluLookAt(20,20,20,xe,ye,ze,0,1,0);
 
 	glPushMatrix();
 		// Sun
