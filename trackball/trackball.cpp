@@ -53,8 +53,22 @@ void TPaint(){
 
 	glColor3f(1, 0, 0);
 	TDrawFloor(floor_size, 0, floor_size);
+
+	// front
 	glColor3f(0, 0, 1);
-	TDrawCube(0,0.75,-5,1);
+	TDrawCube(0,0,10,1);
+
+	// back
+	glColor3f(0, 1, 0);
+	TDrawCube(0,0,-10,1);
+
+	// right
+	glColor3f(1, 1, 1);
+	TDrawCube(10,0,0,1);
+
+	// left
+	glColor3f(1, 1, 0);
+	TDrawCube(-10,0,0,1);
 	// TAxis(axis[0],axis[1],axis[2],axis_size);
 
 	time_base = time_current;
@@ -67,7 +81,7 @@ void TIdle(){   glutPostRedisplay();    }
 void TInit(void){
 	eyes[0]   = 0;	eyes[1]   = 1;	eyes[2]   = 0;
 	axis[0]   = 0;	axis[1]   = 0;	axis[2]   = 0;
-	center[0] = 0;	center[1] = 0;	center[2] = -1;	
+	center[0] = 0;	center[1] = 0;	center[2] = 1;
 
 	angles[0] = 0;	angles[1] = 0;
 	glClearColor(RED, GREEN, BLUE, ALPHA);
@@ -113,22 +127,16 @@ void TCallbackKeyboard(int key, int x, int y){
 			break;
 		}
 		case GLUT_KEY_LEFT:{
-			eyes[0] -= delta;//*center[0];
+			eyes[0] += delta;//*center[0];
 			// eyes[2] += delta*center[2];
 			break;
 		}
 		case GLUT_KEY_RIGHT:{
-			eyes[0] += delta;//*center[0];
+			eyes[0] -= delta;//*center[0];
 			// eyes[2] = delta*center[2];
 			break;
 		}
 	}
-}
-
-void TMoveCamera(float _delta){
-	eyes[0] = _delta*center[0];
-	eyes[1] = _delta*center[1];
-	eyes[2] = _delta*center[2];
 }
 
 void TCallbackMouse(int button, int state, int x, int y){
