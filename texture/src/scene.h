@@ -49,7 +49,6 @@ TMaterial msphere = {
 	0.078f
 };
 
-
 // bronze
 TMaterial mstem = {
 	glm::vec3(0.213f,0.127f,0.054f),
@@ -64,7 +63,7 @@ void Normal(glm::vec3 center, glm::vec3 home){
 
 	glColor3f(1.0f, 0.0f, 0.0f);
 	Walls(center+home, hwidth, hheight, hlong);
-
+	
 	glColor3f(0.5f, 0.5f, 0.5f);
 	Roof(center+home, hwidth, hheight, hlong);
 
@@ -73,6 +72,7 @@ void Normal(glm::vec3 center, glm::vec3 home){
 
 	glColor3f(0.64f,0.16f,0.10f);
 	Stem(center, glm::vec3(20,8,0), 4, 8);
+	Door(center+home, hwidth, hheight, hlong);
 }
 
 void Material(glm::vec3 center, glm::vec3 home){
@@ -113,6 +113,7 @@ void Material(glm::vec3 center, glm::vec3 home){
 	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR , glm::value_ptr(mstem.m_specular));
 	glMaterialf(GL_FRONT_AND_BACK , GL_SHININESS, mstem. m_shininess*shin);
 	Stem(center, glm::vec3(20,8,0), 4, 8);
+	Door(center+home, hwidth, hheight, hlong);
 }
 
 void Texture(glm::vec3 center, glm::vec3 home){

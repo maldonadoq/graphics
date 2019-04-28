@@ -207,6 +207,17 @@ void TRoof(glm::vec3 _cen, int _width, int _height, int _long/*, float _n*/){
 	glEnd();
 }
 
+void Door(glm::vec3 _cen, int _width, int _height, int _long){
+	// Door
+	glBegin(GL_QUADS);
+		glNormal3f(0.0f, 0.0f, 1.0f);
+		glVertex3f(_cen.x + _width/2, _cen.y + _height, _cen.z +_long);
+		glVertex3f(_cen.x - _width/2, _cen.y + _height, _cen.z +_long);
+		glVertex3f(_cen.x - _width/2, _cen.y, _cen.z +_long);
+		glVertex3f(_cen.x + _width/2, _cen.y, _cen.z +_long);
+	glEnd();
+}
+
 void TDoor(glm::vec3 _cen, int _width, int _height, int _long){
 	// Door
 	glBegin(GL_QUADS);
