@@ -113,7 +113,7 @@ void EnableLight(){
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, glm::value_ptr(light.m_ambient+glm::vec4(0.6,0.6,0.6,0.0)));
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, glm::value_ptr(light.m_ambient));
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT , glm::value_ptr(light.m_ambient));
 	glLightfv(GL_LIGHT0, GL_DIFFUSE , glm::value_ptr(light.m_diffuse));
@@ -133,7 +133,7 @@ void EnableTexture(){
 
 void DisableTexture(){
 	glDisable(GL_TEXTURE_2D);
-	glDisable(GL_BLEND);
+	// glDisable(GL_BLEND);
 }
 
 void InitScene(){
@@ -201,6 +201,8 @@ int main(int argc, char *argv[]){
 	textures_id[2] = TextureManager::Inst()->LoadTexture("data/tilet.jpg", GL_BGR_EXT, GL_RGB);	
 	// textures_id[3] = TextureManager::Inst()->TextureManager::Inst()->LoadTexture("data/door.png", GL_BGRA_EXT, GL_RGBA);
 	textures_id[3] = TextureManager::Inst()->LoadTexture("data/doord.jpg", GL_BGR_EXT, GL_RGBA);
+
+	// std::cout << textures_id[0] << "\n";
 
     glutDisplayFunc(&Draw);
     glutReshapeFunc(&WRedraw);
