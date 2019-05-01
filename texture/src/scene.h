@@ -17,6 +17,8 @@ extern float fsize;
 
 float shin = 128;
 
+GLfloat emit[] = {1.0, 1.0, 1.0, 1.0};     	
+
 // emerald
 TMaterial mfloor = {
 	glm::vec3(0.022f,0.175f,0.022f),
@@ -117,6 +119,8 @@ void Material(glm::vec3 center, glm::vec3 home){
 }
 
 void Texture(glm::vec3 center, glm::vec3 home){
+
+	// glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, emit);
 
 	glClear(GL_COLOR_BUFFER_BIT); 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
