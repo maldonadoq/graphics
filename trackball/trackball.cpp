@@ -1,201 +1,150 @@
-#include <GL/glew.h>
-#include <GL/glut.h>
 #include <iostream>
-#include <math.h>
-#include <pthread.h>
+#include <GL/glut.h>
+#include <glm/glm.hpp>
 
 #include "src/trackball.h"
-#include "src/floor.h"
-#include "src/solid.h"
 
-#define RED 0
-#define GREEN 0
-#define BLUE 0
-#define ALPHA 1
-
+#define RED   	0
+#define GREEN 	0
+#define BLUE  	0
+#define ALPHA 	1
 #define KEY_ESC 27
-#define PI 3.14159265
 
-float wsize = 600;
-float msize = wsize/2;
+float wsize = 500;
+float hsize = 700;
+unsigned particles = 1000;
 
-float zfar = 100;
-float time_base = 0;
-float time_current = 0;
+TCamera *camera;
 
-float angles[2];
-float position[4];
-float eyes[3];
-float center[3];
-float axis[3];
-float up[3];
+// float delta_time;
 
-float delta_xangle = 0;
-float delta_yangle = 0;
+// dt init-time time
+glm::vec3 etime(0,0,0);
+glm::vec2 mouse(0,0);
+glm::vec2 delta(0,0);
+glm::vec3 center(0,0,0);
+glm::vec3 move(0,0,0);
 
-float move = 0;
-int initx = -1;
-int inity = -1;
-
-float floor_size = 100;
-float axis_size = 20;
-
-float delta = 0.5;
-
-void TPaint(){
+void Draw(){
+	etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
+	etime[0] = (etime[2] - etime[1])/1000.0f;	// delta time
+	etime[1] = etime[2];
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
-	glLoadIdentity();
-	
-	gluLookAt(eyes[0], eyes[1], eyes[2],
-		eyes[0]+center[0], eyes[1]+center[1], eyes[2]+center[2],
-		0,1,0);
-
-	glColor3f(1, 0, 0);
-	TDrawFloor(floor_size, 0, floor_size);
-
-	// front
-	glColor3f(0, 0, 1);
-	TDrawCube(0,0,10,1);
-
-	// back
-	glColor3f(0, 1, 0);
-	TDrawCube(0,0,-10,1);
-
-	// right
-	glColor3f(1, 1, 1);
-	TDrawCube(10,0,0,1);
-
-	// left
-	glColor3f(1, 1, 0);
-	TDrawCube(-10,0,0,1);
-	// TAxis(axis[0],axis[1],axis[2],axis_size);
-
-	time_base = time_current;
-	glutSwapBuffers();
-	glFlush();
-}
-
-void TIdle(){   glutPostRedisplay();    }
-
-void TInit(void){
-	eyes[0]   = 0;	eyes[1]   = 1;	eyes[2]   = 0;
-	axis[0]   = 0;	axis[1]   = 0;	axis[2]   = 0;
-	center[0] = 0;	center[1] = 0;	center[2] = 1;
-
-	angles[0] = 0;	angles[1] = 0;
-	glClearColor(RED, GREEN, BLUE, ALPHA);
-}
-
-void TWRedraw(GLsizei _w, GLsizei _h){	
-	if(_h == 0)	_h = 1;
-
-	float ratio = _w/_h;
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	glViewport(0, 0, _w, _h);
-	gluPerspective(45, ratio, 1, zfar);
+	gluPerspective( camera->m_perspective[0], camera->m_perspective[1],
+					camera->m_perspective[2], camera->m_perspective[3]);
 
+	glTranslatef(move.x,move.y,move.z);
+	glRotatef(delta.x, 0.0, 1.0, 0.0);
+	glRotatef(delta.y, 1.0, 0.0, 0.0);
+
+	TAxis(0,0,0,10);
+	
+	glutSwapBuffers();
+	glFlush();
+}
+
+void WRedraw(GLsizei _w, GLsizei _h){
+	glViewport(0, 0, _w, _h);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
 	glMatrixMode(GL_MODELVIEW);
 }
 
-void TInitScene(){
+void Init(void){	
+	GLfloat position[] = { 0.0f, 5.0f, 10.0f, 0.0 };
+
+	glLightfv(GL_LIGHT0, GL_POSITION, position);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	
+	glShadeModel(GL_SMOOTH);
+
+	glEnable(GL_DEPTH_TEST);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glEnable(GL_COLOR_MATERIAL);
+
+	glClearColor(RED, GREEN, BLUE, ALPHA);
 }
 
-void TKeyboard(unsigned char key, int x, int y) {
+void InitScene(){
+}
+
+void Keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case KEY_ESC:
             exit(0);
-            break;            		
+            break;
         default:
             break;
     }
 }
 
-void TCallbackKeyboard(int key, int x, int y){
-	switch(key){
-		case GLUT_KEY_UP:{			
-			// eyes[0] += delta*center[0];
-			eyes[2] += delta;//*center[2];
-			break;
-		}
-		case GLUT_KEY_DOWN:{
-			// eyes[0] += delta*center[0];
-			eyes[2] -= delta;//*center[2];
-			break;
-		}
-		case GLUT_KEY_LEFT:{
-			eyes[0] += delta;//*center[0];
-			// eyes[2] += delta*center[2];
-			break;
-		}
-		case GLUT_KEY_RIGHT:{
-			eyes[0] -= delta;//*center[0];
-			// eyes[2] = delta*center[2];
-			break;
-		}
+void Mouse(int button, int state, int x, int y){
+	if (state == GLUT_DOWN && button == GLUT_LEFT_BUTTON){
+		mouse.x = x;
+		mouse.y = y;
 	}
 }
 
-void TCallbackMouse(int button, int state, int x, int y){
-	if (button == GLUT_LEFT_BUTTON){
-		// when the button is released
-        if (state == GLUT_UP) {
-            angles[0] += delta_xangle;
-            angles[1] += delta_yangle;
 
-            initx = -1;
-            inity = -1;
-        }
-        else{
-            initx = x;
-            inity = y;
-        }
+void MouseMotion(int x, int y){
+	delta.x += (x - mouse.x)/10;
+	delta.y += (y - mouse.y)/10;
+	
+	mouse.x = x;
+	mouse.y = y;
+	glutPostRedisplay();
+}
+
+void KeyboardDown(int c, int x, int y){
+	switch(c){
+		case GLUT_KEY_UP:
+			move.z += 5.0f;
+			break;
+		case GLUT_KEY_DOWN:
+			move.z -= 5.0f;
+			break;
+		case GLUT_KEY_LEFT:
+			move.x += 5.0f;
+			break;
+		case GLUT_KEY_RIGHT:
+			move.x -= 5.0f;
+			break;
+		default:
+			break;
 	}
+	glutPostRedisplay();
 }
 
-void TCallbackMotion(int x, int y){
-	if (initx >= 0 and inity >= 0) {
-
-        delta_xangle = (x-initx) * 0.001f;
-        delta_yangle = (y-inity) * 0.001f;
-                
-        center[0] = sin(angles[1] + delta_yangle)*sin(angles[0] + delta_xangle);
-        center[2] = sin(angles[1] + delta_yangle)*cos(angles[0] + delta_xangle);
-        center[1] = cos(angles[1] + delta_yangle);
-    }
-}
-
-void TTimer(int _t){
-    glutPostRedisplay();
-    glutTimerFunc(1000/60, TTimer, 0);
-}
-
-// g++ figure.cpp -o figure.out -lglut -lGL
 int main(int argc, char *argv[]){
     glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);	
-	glutInitWindowSize(wsize, wsize);
-	glutInitWindowPosition(50,50);
+	glutInitWindowSize(wsize, hsize);
+	glutInitWindowPosition(50,10);
 	glutCreateWindow("Trackball");
     
-    TInit();
-    TInitScene();
+    Init();
+    InitScene();
 
-    glutDisplayFunc(&TPaint);
-    glutReshapeFunc(&TWRedraw);
-    glutKeyboardFunc(&TKeyboard);
+	camera = new TCamera(45, wsize/hsize, 0.01f, 500);
 
-    glutIdleFunc(&TIdle);
-    glutTimerFunc(0, TTimer, 0);
+    glutDisplayFunc(&Draw);
+    glutReshapeFunc(&WRedraw);
 
-    glutSpecialFunc(&TCallbackKeyboard);
-	glutMouseFunc(&TCallbackMouse);
-	glutMotionFunc(&TCallbackMotion);
+    glutMouseFunc(&Mouse);
+	glutMotionFunc(&MouseMotion);
+
+    glutKeyboardFunc(&Keyboard);
+    glutSpecialFunc(&KeyboardDown);
 
     glutMainLoop();
 
+    delete camera;
     return 0;
 }
