@@ -57,7 +57,6 @@ void TPaint(){
 	gluPerspective(45, 1, 1, 100);
 	// glTranslatef(0,0,-10);
 
-	/*TTranslate(teapot_angle, teapot_translate);*/
 	TSolarSystem(sun_anglec, sun_radius, \
 		earth_anglec, earth_anglet, earth_radius, earth_translate, \
 		moon_anglec, moon_anglet, moon_radius, moon_translate, \

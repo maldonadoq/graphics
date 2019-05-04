@@ -47,12 +47,13 @@ void TPaint(){
 	glOrtho(-msize,msize,-msize,msize, -25.0f, 25.0f);
 
 	
-	// TTranslate(teapot_angle, teapot_translate);
-	TTranslateII(teapot_angle, teapot_translate);
-	// TTranslateIdaVuelta(teapot_angle, teapot_translate, \
+	//TTranslate(teapot_angle, teapot_translate);	
+	//TTranslateIdaVuelta(teapot_angle, teapot_translate, \
 			circle_direction, circle_xpos, circle_radius);
 	// TTranslateComplex(teapot_angle, teapot_translate, circle_direction, circle_xpos, circle_radius, \
 		cube_angle, cube_translate, torus_angle, torus_translate, torus_inner);
+
+	// TTranslateII(teapot_angle, teapot_translate);
 
 	glutSwapBuffers();
 	glFlush();
