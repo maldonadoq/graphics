@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 
 #include "../utils/camera.h"
+#include "inc/terrain.h"
 
 #define RED   	0
 #define GREEN 	0
@@ -10,8 +11,8 @@
 #define ALPHA 	1
 #define KEY_ESC 27
 
-float wsize = 400;
-float hsize = 400;
+float wsize = 500;
+float hsize = 500;
 
 TCamera *camera;
 
@@ -40,7 +41,7 @@ void Draw(){
 	glRotatef(delta.y, 1.0, 0.0, 0.0);
 
 	glColor3f(0.0, 1.0, 0.0);
-	glutSolidCube(4);
+	DrawGrid(10);
 	
 	glutSwapBuffers();
 	glFlush();
@@ -125,7 +126,7 @@ int main(int argc, char *argv[]){
     glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);	
 	glutInitWindowSize(wsize, hsize);
-	glutInitWindowPosition(50,10);
+	glutInitWindowPosition(50,50);
 	glutCreateWindow("Map");
     
     Init();
