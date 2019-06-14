@@ -2,7 +2,8 @@
 #include <GL/glut.h>
 #include <glm/glm.hpp>
 
-#include "src/trackball.h"
+#include "../utils/camera.h"
+#include "../utils/draw.h"
 
 #define RED   	0
 #define GREEN 	0
@@ -10,20 +11,17 @@
 #define ALPHA 	1
 #define KEY_ESC 27
 
-float wsize = 500;
-float hsize = 700;
-unsigned particles = 1000;
+float wsize = 400;
+float hsize = 400;
 
 TCamera *camera;
-
-// float delta_time;
 
 // dt init-time time
 glm::vec3 etime(0,0,0);
 glm::vec2 mouse(0,0);
 glm::vec2 delta(0,0);
 glm::vec3 center(0,0,0);
-glm::vec3 move(0,0,0);
+glm::vec3 move(0,0,-25);
 
 void Draw(){
 	etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
@@ -122,6 +120,7 @@ void KeyboardDown(int c, int x, int y){
 	glutPostRedisplay();
 }
 
+// build: g++ trackball.cpp -o trackball.out -lGL -lglut -lGLUT
 int main(int argc, char *argv[]){
     glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);	

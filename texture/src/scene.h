@@ -4,9 +4,7 @@
 #include "floor.h"
 #include "house.h"
 #include "tree.h"
-#include "utils.h"
-
-// #include <glm/glm.hpp>
+#include "../../utils/material.h"
 
 extern TLight light;
 extern int textures_id[4];

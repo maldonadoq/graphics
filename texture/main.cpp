@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 
 #include "src/TextureManager.h"
-#include "src/camera.h"
+#include "../utils/camera.h"
 #include "src/scene.h"
 
 #define RED   	0
@@ -197,12 +197,9 @@ int main(int argc, char *argv[]){
 
 	camera = new TCamera(45, wsize/hsize, 0.01f, 500);
 	textures_id[0] = TextureManager::Inst()->LoadTexture("data/grass.jpg", GL_BGR_EXT, GL_RGB);
-	textures_id[1] = TextureManager::Inst()->LoadTexture("data/walld.jpg", GL_BGR_EXT, GL_RGB);
-	textures_id[2] = TextureManager::Inst()->LoadTexture("data/tilet.jpg", GL_BGR_EXT, GL_RGB);	
-	// textures_id[3] = TextureManager::Inst()->TextureManager::Inst()->LoadTexture("data/door.png", GL_BGRA_EXT, GL_RGBA);
-	textures_id[3] = TextureManager::Inst()->LoadTexture("data/doord.jpg", GL_BGR_EXT, GL_RGBA);
-
-	// std::cout << textures_id[0] << "\n";
+	textures_id[1] = TextureManager::Inst()->LoadTexture("data/wall.jpg", GL_BGR_EXT, GL_RGB);
+	textures_id[2] = TextureManager::Inst()->LoadTexture("data/tile.jpg", GL_BGR_EXT, GL_RGB);
+	textures_id[3] = TextureManager::Inst()->LoadTexture("data/door.jpg", GL_BGR_EXT, GL_RGBA);
 
     glutDisplayFunc(&Draw);
     glutReshapeFunc(&WRedraw);
