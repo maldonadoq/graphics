@@ -14,6 +14,9 @@
 float wsize = 500;
 float hsize = 500;
 
+string filename = "data/fontvieille.txt";
+
+TTerrain *terrain;
 TCamera *camera;
 
 // dt init-time time
@@ -21,7 +24,7 @@ glm::vec3 etime(0,0,0);
 glm::vec2 mouse(0,0);
 glm::vec2 delta(0,0);
 glm::vec3 center(0,0,0);
-glm::vec3 move(0,0,-10);
+glm::vec3 move(-2500,-1000,-1000);
 
 void Draw(){
 	etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
@@ -41,7 +44,7 @@ void Draw(){
 	glRotatef(delta.y, 1.0, 0.0, 0.0);
 
 	glColor3f(0.0, 1.0, 0.0);
-	DrawGrid(10);
+	terrain->draw_vertex();
 	
 	glutSwapBuffers();
 	glFlush();
@@ -69,9 +72,8 @@ void Init(void){
 	glEnable(GL_COLOR_MATERIAL);
 
 	glClearColor(RED, GREEN, BLUE, ALPHA);
-}
 
-void InitScene(){
+	terrain->load(filename);
 }
 
 void Keyboard(unsigned char key, int x, int y) {
@@ -104,16 +106,16 @@ void MouseMotion(int x, int y){
 void KeyboardDown(int c, int x, int y){
 	switch(c){
 		case GLUT_KEY_UP:
-			move.z += 5.0f;
+			move.z += 15.0f;
 			break;
 		case GLUT_KEY_DOWN:
-			move.z -= 5.0f;
+			move.z -= 15.0f;
 			break;
 		case GLUT_KEY_LEFT:
-			move.x += 5.0f;
+			move.x += 15.0f;
 			break;
 		case GLUT_KEY_RIGHT:
-			move.x -= 5.0f;
+			move.x -= 15.0f;
 			break;
 		default:
 			break;
@@ -128,11 +130,11 @@ int main(int argc, char *argv[]){
 	glutInitWindowSize(wsize, hsize);
 	glutInitWindowPosition(50,50);
 	glutCreateWindow("Map");
-    
-    Init();
-    InitScene();
 
-	camera = new TCamera(45, wsize/hsize, 0.01f, 500);
+	camera = new TCamera(45, wsize/hsize, 0.01f, 10000);
+	terrain = new TTerrain(50, -50);
+
+	Init();
 
     glutDisplayFunc(&Draw);
     glutReshapeFunc(&WRedraw);
