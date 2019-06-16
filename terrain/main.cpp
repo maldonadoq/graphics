@@ -14,7 +14,10 @@
 float wsize = 500;
 float hsize = 500;
 
+int type = 1;
+
 string filename = "data/fontvieille.txt";
+string texture  = "data/fontvieille.tga";
 
 TTerrain *terrain;
 TCamera *camera;
@@ -24,7 +27,7 @@ glm::vec3 etime(0,0,0);
 glm::vec2 mouse(0,0);
 glm::vec2 delta(0,0);
 glm::vec3 center(0,0,0);
-glm::vec3 move(-2500,-1000,-1000);
+glm::vec3 move(-2500,-1500,-4000);
 
 void Draw(){
 	etime[2] = glutGet(GLUT_ELAPSED_TIME);		// time
@@ -32,7 +35,6 @@ void Draw(){
 	etime[1] = etime[2];
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
-
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
@@ -42,9 +44,23 @@ void Draw(){
 	glTranslatef(move.x,move.y,move.z);
 	glRotatef(delta.x, 0.0, 1.0, 0.0);
 	glRotatef(delta.y, 1.0, 0.0, 0.0);
-
-	glColor3f(0.0, 1.0, 0.0);
-	terrain->draw_vertex();
+	
+	switch(type){
+		case 1:{
+			terrain->draw_vertex();
+			break;
+		}
+		case 2:{
+			terrain->draw_triangles();
+			break;
+		}
+		case 3:{
+			terrain->draw();
+			break;
+		}
+		default:
+			break;
+	}
 	
 	glutSwapBuffers();
 	glFlush();
@@ -59,28 +75,64 @@ void WRedraw(GLsizei _w, GLsizei _h){
 }
 
 void Init(void){	
-	GLfloat position[] = { 0.0f, 5.0f, 10.0f, 0.0 };
-
-	glLightfv(GL_LIGHT0, GL_POSITION, position);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	
-	glShadeModel(GL_SMOOTH);
+	GLfloat position[] = { -2500.0f, -1500.0f, 0.0f, 1.0f };
 
 	glEnable(GL_DEPTH_TEST);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-	glEnable(GL_COLOR_MATERIAL);
+    
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glShadeModel(GL_SMOOTH);
+    glEnable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
 
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_TEXTURE_2D);
 	glClearColor(RED, GREEN, BLUE, ALPHA);
 
-	terrain->load(filename);
+    float LightA[] = {0.2f, 0.2f, 0.2f, 1.0f};
+    float LightD[] = {1.0f, 1.0f, 1.0f, 1.0f};
+    float LightS[] = {1.0f, 1.0f, 1.0f, 1.0f};
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT,  LightA);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE,  LightD);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, LightS);
+
+    glLightfv(GL_LIGHT0, GL_POSITION, position);
+    glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
+
+	terrain->init(filename, texture);
 }
 
 void Keyboard(unsigned char key, int x, int y) {
     switch (key) {
-        case KEY_ESC:
+        case KEY_ESC:{
             exit(0);
             break;
+		}
+		case 'Q':
+		case 'q':{
+            glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+            break;
+        }
+        case 'W':
+		case 'w':{
+            glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+            break;
+        }
+        case '1':{
+            type = 1;
+            break;
+        }
+        case '2':{
+            type = 2;
+            break;
+        }
+        case '3':{
+            type = 3;
+            break;
+        }
         default:
             break;
     }
@@ -106,16 +158,16 @@ void MouseMotion(int x, int y){
 void KeyboardDown(int c, int x, int y){
 	switch(c){
 		case GLUT_KEY_UP:
-			move.z += 15.0f;
+			move.z += 25.0f;
 			break;
 		case GLUT_KEY_DOWN:
-			move.z -= 15.0f;
+			move.z -= 25.0f;
 			break;
 		case GLUT_KEY_LEFT:
-			move.x += 15.0f;
+			move.x += 25.0f;
 			break;
 		case GLUT_KEY_RIGHT:
-			move.x -= 15.0f;
+			move.x -= 25.0f;
 			break;
 		default:
 			break;
@@ -123,7 +175,11 @@ void KeyboardDown(int c, int x, int y){
 	glutPostRedisplay();
 }
 
-// build: g++ main.cpp -o main.out -lGL -lglut -lGLU
+void Idle(){
+    glutPostRedisplay();
+}
+
+// build: g++ main.cpp -o main.out -lGL -lglut -lGLU -freeimage
 int main(int argc, char *argv[]){
     glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);	
@@ -132,7 +188,7 @@ int main(int argc, char *argv[]){
 	glutCreateWindow("Map");
 
 	camera = new TCamera(45, wsize/hsize, 0.01f, 10000);
-	terrain = new TTerrain(50, -50);
+	terrain = new TTerrain(50, -50, 101, 101);
 
 	Init();
 
@@ -144,6 +200,8 @@ int main(int argc, char *argv[]){
 
     glutKeyboardFunc(&Keyboard);
     glutSpecialFunc(&KeyboardDown);
+
+    glutIdleFunc(&Idle);
 
     glutMainLoop();
 
