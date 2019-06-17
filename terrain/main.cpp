@@ -75,7 +75,7 @@ void WRedraw(GLsizei _w, GLsizei _h){
 }
 
 void Init(void){	
-	GLfloat position[] = { -2500.0f, -1500.0f, 0.0f, 1.0f };
+	GLfloat position[] = { -2500.0f, -1500.0f, 2500.0f, 1.0f };
 
 	glEnable(GL_DEPTH_TEST);
     
