@@ -160,6 +160,7 @@ void TTerrain::triangulate(){
 }
 
 void TTerrain::set_normal(int _idx, glm::vec3 _normal){
+    _normal = glm::normalize(_normal);
     m_vertexs[_idx].nx = _normal.x;
     m_vertexs[_idx].ny = _normal.y;
     m_vertexs[_idx].nz = _normal.z;
@@ -174,7 +175,7 @@ void TTerrain::compute_vertexs_normal(){
         vidx = i*m_nx;
 
         for(j=1; j<m_nx-1; j++){
-            tmp += m_normals[i-1][j-1].second;
+            tmp = m_normals[i-1][j-1].second;
             tmp += m_normals[i-1][j].first;
             tmp += m_normals[i-1][j].second;
 
