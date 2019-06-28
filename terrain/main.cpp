@@ -179,7 +179,7 @@ void Idle(){
     glutPostRedisplay();
 }
 
-// build: g++ main.cpp -o main.out -lGL -lglut -lGLU -freeimage
+// build: g++ main.cpp -o main.out -lGL -lglut -lGLU -lfreeimage
 int main(int argc, char *argv[]){
     glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);	
